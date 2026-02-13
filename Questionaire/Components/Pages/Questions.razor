@@ -1,0 +1,115 @@
+﻿@page "/questionnaire"
+@inherits PageBase
+
+<PageTitle>Questions</PageTitle>
+
+@if (IsLoading)
+{
+    <div class="card-body p-5 text-center">
+        <div class="spinner-border text-primary mb-3" role="status"></div>
+        <p class="text-muted">Loading questions...</p>
+    </div>
+}
+else if (State.Selected != null)
+{
+    <div class="card-header bg-primary text-white text-center py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="small">Trivia Questions</span>
+            <span class="badge bg-white text-primary">
+                Question @(State.SelectedIndex + 1) of @State.Questions.Count
+            </span>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <div class="question-slide">
+            <h4 class="mb-4 fw-bold">@State.Selected!.QuestionText</h4>
+
+            <div @key="State.Selected" class="options-list mb-4">
+                @foreach (var option in State.Selected.Answers)
+                {
+                    <div class="custom-option mb-2">
+                        <input type="radio" class="btn-check" name="answer" 
+                               id="opt-@option.Key" 
+                               value="@option.Key"
+                               checked="@(State.Selected.SelectedAnswer == option.Key)"
+                               @onchange="@(() => SelectOption(option.Key))" 
+                               disabled="@(State.Selected.Answered)">
+
+                        <label class="btn btn-outline-primary w-100 text-start p-3 shadow-sm @GetAnswerClass(option.Key)" for="opt-@option.Key">
+                            <i class="bi @(option.Key == State.Selected.CorrectAnswer && State.Selected.Answered ? "bi-check-circle-fill" : "bi-circle") me-2"></i>
+                            @option.Value
+                        </label>
+                    </div>
+                }
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-outline-secondary flex-grow-1" 
+                        @onclick="State.SelectPrevious" 
+                        disabled="@(State.SelectedIndex <= 0)">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </button>
+
+                <button class="btn btn-success px-5 w-50" 
+                        @onclick="CheckAnswer"
+                        disabled="@(State.Selected.SelectedAnswer == null || State.Selected.Answered)">
+                    Check
+                </button>
+
+                <button class="btn btn-primary flex-grow-1" 
+                        @onclick="NextClick" 
+                        disabled="@(State.SelectedIndex >= State.Questions.Count - 1 && !State.Questions.All(q => q.Answered))">
+                    @(State.SelectedIndex == State.Questions.Count -1 ? "Finish" : "Next") 
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card-body p-5 text-center">
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i> No questions available.
+        </div>
+        <a href="/" class="btn btn-primary mt-3">Go Back</a>
+    </div>
+}
+
+
+<style>
+    .btn:disabled {
+        background-color: #e9ecef !important;
+        border-color: #dee2e6 !important;
+        color: #adb5bd !important;
+        cursor: not-allowed;
+    }
+
+    .btn-check:checked + .btn-outline-primary {
+        background-color: #0d6efd;
+        color: white;
+    }
+
+    .btn-primary {
+        background-color: white;
+        border-color: #0d63fd;
+        color: #0d63fd;
+    }
+
+    .correct-answer {
+        background-color: #198754 !important; 
+        border-color: #198754 !important;
+        color: white !important;
+    }
+
+    .wrong-answer {
+        background-color: #dc3545 !important; 
+        border-color: #dc3545 !important;
+        color: white !important;
+    }
+
+    .correct-answer i, .wrong-answer i {
+        color: white !important;
+    }
+</style>

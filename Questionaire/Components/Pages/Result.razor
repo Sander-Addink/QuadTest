@@ -1,0 +1,35 @@
+﻿@page "/result"
+@inherits PageBase
+
+<div class="card-header bg-primary text-white text-center py-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <span class="small">Let's see the results</span>
+    </div>
+</div>
+
+<div class="card-body p-5 text-center">
+    <div class="mb-3">
+        <span class="display-1 fw-bold @statusClass">@percentage%</span>
+    </div>
+    
+    <p class="text-muted mb-0">
+        You answered <strong>@correctCount</strong> out of <strong>@totalCount</strong> questions correctly.
+    </p>
+
+    <div class="progress mt-4" style="height: 10px;">
+        <div class="progress-bar @(percentage >= 70 ? "bg-success" : "bg-danger")" 
+             role="progressbar" 
+             style="width: @percentage%" 
+             aria-valuenow="@percentage" 
+             aria-valuemin="0" 
+             aria-valuemax="100">
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-2 mt-4">
+        <button class="btn btn-primary"
+            @onclick=ClickHome>
+            Home
+        </button>
+    </div>
+</div>

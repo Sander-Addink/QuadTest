@@ -1,0 +1,61 @@
+﻿@page "/"
+@using Trivia.API.Enums
+@inherits PageBase
+
+<PageTitle>Questionaire</PageTitle>
+
+<div class="card-header bg-primary text-white text-center py-3">
+    <h2 class="mb-0"><i class="bi bi-patch-question me-2"></i>Trivia Questionnaire</h2>
+</div>
+<div class="card-body p-4">
+    <EditForm FormName="QuestionsRequest" Model="@formData" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="mb-4">
+            <label class="form-label fw-bold">How many questions?</label>
+            <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-hash"></i></span>
+                <InputNumber @bind-Value="formData.QuestionsAmount" class="form-control form-control-lg" placeholder="e.g. 10" min="1" />
+            </div>
+            <ValidationMessage For="() => formData.QuestionsAmount" class="text-danger small" />
+        </div>
+
+        <div class="row">
+            <div class="col-12 mb-3">
+                <label class="form-label fw-bold">Category</label>
+                <InputSelect @bind-Value="formData.Category" class="form-select shadow-sm">
+                    @foreach (var value in Enum.GetValues<Category>())
+                    {
+                        <option value="@value">@FormatEnumName(value)</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Difficulty</label>
+                <InputSelect @bind-Value="formData.Difficulty" class="form-select shadow-sm">
+                    @foreach (var value in Enum.GetValues<Difficulty>())
+                    {
+                        <option value="@value">@FormatEnumName(value)</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Type</label>
+                <InputSelect @bind-Value="formData.Type" class="form-select shadow-sm">
+                    @foreach (var value in Enum.GetValues<Trivia.API.Enums.Type>())
+                    {
+                        <option value="@value">@FormatEnumName(value)</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+
+        <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-primary btn-lg shadow">
+                Start Quiz <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+        </div>
+    </EditForm>
+</div>
