@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+	<OutputType>exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Quad.UI\Quad.UI.csproj" />
+    <ProjectReference Include="..\..\Trivia.API\Trivia.API.csproj" />
+    <ProjectReference Include="..\Quad.SessionStorage\Quad.SessionStorage.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,6 @@
+@Quad.TriviaApi_HostAddress = http://localhost:5210
+
+POST {{Quad.TriviaApi_HostAddress}}/session/
+Accept: application/json
+
+###

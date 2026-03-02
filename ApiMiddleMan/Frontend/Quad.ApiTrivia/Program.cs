@@ -1,0 +1,18 @@
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Quad.ApiTrivia;
+using Quad.API;
+using Quad.API.Models;
+
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
+
+var apiBase = builder.Configuration.GetSection("ApiBase").Get<string>() ?? string.Empty;
+
+builder.Services.AddQuadApi(new QuadApiSettings()
+{
+    EndpointBase = apiBase
+});
+
+await builder.Build().RunAsync();
